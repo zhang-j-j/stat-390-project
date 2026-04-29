@@ -1,5 +1,1 @@
-model_specification	fitting_time_seconds	cross_validation_performance
-Baseline (KNN with k=1)    0.207    0.242
-Baseline (KNN with k=9)    0.265    0.240
-PCA KNN (n=250, k=8)    4.72    0.241
-PCA KNN (n=100, k=9)    3.81    0.241
+baseline	0.240397	success	Baseline model with no preprocessing or feature engineering.
