@@ -8,9 +8,7 @@ import sys
 from sklearn.decomposition import PCA
 from sklearn.pipeline import Pipeline
 
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
 
 # ensure project root is on import path so `prepare` can be imported
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -23,7 +21,7 @@ def build_model():
 	"""
 	return Pipeline([
 		('pca', PCA(n_components=250)),
-		('svc', SVC(kernel='rbf', C=1.0, gamma='scale', verbose=True))
+		('lr', LogisticRegression(max_iter=200, C=0.1, random_state=42))
 	])
 
 def run_model():

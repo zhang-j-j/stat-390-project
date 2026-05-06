@@ -1,0 +1,6 @@
+experiment	val_acc	status	description
+baseline	0.267281	keep	Reduce PCA components from 250 to 200
+baseline	0.264355	keep	Add StandardScaler after PCA
+baseline	0.243855	keep	Use KNeighborsClassifier with k=5 instead of LogisticRegression
+baseline	0.264355	keep	Replace PCA with FastICA (200 components)
+baseline	0.266421	keep	Increase regularization: LogisticRegression C=0.01

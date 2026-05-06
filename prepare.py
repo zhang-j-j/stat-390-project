@@ -15,7 +15,6 @@ import os
 DATA_PATH = 'data/cleaned/exp_train.pkl'
 RANDOM_STATE = 42
 VAL_FRACTION = 0.2
-RESULTS_FILE = 'results.tsv'
 
 # ── Data ───────────────────────────────────────────────────
 def load_data():
@@ -46,12 +45,12 @@ def evaluate(model, X_val, y_val):
 
 
 # ── Logging ────────────────────────────────────────────────
-def log_result(experiment_id, val_acc, status, description):
+def log_result(results_file, experiment_id, val_acc, status, description):
     """
     Append one row to results.tsv.
     """
-    file_exists = os.path.exists(RESULTS_FILE)
-    with open(RESULTS_FILE, 'a', newline='') as f:
+    file_exists = os.path.exists(results_file)
+    with open(results_file, 'a', newline='') as f:
         writer = csv.writer(f, delimiter='\t')
         if not file_exists:
             writer.writerow(['experiment', 'val_acc', 'status', 'description'])

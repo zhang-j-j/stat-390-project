@@ -1,0 +1,2 @@
+experiment	val_acc	status	description
+baseline	0.261494	keep	PCA n_components=300 (increased from 250)
