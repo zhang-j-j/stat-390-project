@@ -1,0 +1,18 @@
+experiment	val_acc	status	description
+baseline	0.249229	discard	Autoencoder (latent_dim=64, epochs=10) + LogisticRegression
+baseline	0.254780	discard	Autoencoder (latent_dim=32, epochs=10) + LogisticRegression
+baseline	0.252215	discard	PCA(150) + Autoencoder(latent_dim=64) + LogisticRegression
+baseline	0.265251	discard	PCA components fine-tuning: n_components=180
+baseline	0.265279	discard	Increase LogisticRegression max_iter to 500 for better convergence
+baseline	0.237412	discard	RandomForest (n_estimators=30, max_depth=15) instead of LogisticRegression
+baseline	0.260277	discard	MLPClassifier (hidden_layer_sizes=(100,50)) instead of LogisticRegression
+baseline	0.229129	discard	DecisionTreeClassifier (max_depth=20) instead of LogisticRegression
+baseline	0.264549	discard	Add RobustScaler after PCA before LogisticRegression
+baseline	0.265937	discard	LogisticRegression C parameter tuning: C=0.15
+baseline	0.266909	discard	PCA component tuning: n_components=210 (above current best of 200)
+baseline	0.263968	discard	PCA component tuning: n_components=195 (fine-tuning around 200)
+baseline	0.264868	discard	LogisticRegression solver='saga' instead of default 'lbfgs'
+baseline	0.261246	discard	HistGradientBoostingClassifier (max_iter=50) instead of LogisticRegression
+baseline	0.239021	discard	KNeighborsClassifier (k=7) with PCA(200)
+baseline	0.267281	keep	Validation: PCA(200) + LogisticRegression(C=0.1) - reproduce best result
+baseline	0.265549	discard	Fine-tuning: PCA(205) between current best 200 and 210

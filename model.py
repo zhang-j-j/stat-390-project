@@ -9,26 +9,26 @@ Usage:
 
 import sys
 import time
+import os
+import numpy as np
+import tensorflow as tf
+
 from sklearn.pipeline import Pipeline
 from sklearn.decomposition import PCA, FastICA
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier, HistGradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.neural_network import MLPClassifier
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import StandardScaler, RobustScaler
 from sklearn.svm import SVC
 from sklearn.base import BaseEstimator, TransformerMixin
-import numpy as np
-
-try:
-    import tensorflow as tf
-except Exception:
-    tf = None
 
 from prepare import load_data, evaluate, log_result
 
 # EDITABLE - change to the user-specified results file
 # ONLY CHANGE THE SECOND PART OF THE PATH
-results_file = 'results/' + 'second_run_results.tsv'
+results_file = 'results/' + 'third_run_results.tsv'
 
 # NOTE: git-hash tracking removed — experiments are logged without auto-commits
 
@@ -120,12 +120,15 @@ def run_model(results_file):
     # setup
     args = sys.argv[1:]
     status = "keep"
+    explicit_status = False
     description_parts = []
     for a in args:
         if a == "--baseline":
             status = "baseline"
+            explicit_status = True
         elif a == "--discard":
             status = "discard"
+            explicit_status = True
         else:
             description_parts.append(a)
     description = " ".join(description_parts) if description_parts else "experiment"
@@ -142,6 +145,32 @@ def run_model(results_file):
 
     # evaluate model and log results
     acc = evaluate(model, X_val, y_val)
+    
+    # If user did not explicitly pass a status flag, compare to past results
+    if not explicit_status:
+        best_val = float('-inf')
+        if os.path.exists(results_file):
+            with open(results_file, 'r', encoding='utf-8') as f:
+                # skip header
+                header = f.readline()
+                for line in f:
+                    parts = line.strip().split('\t')
+                    if len(parts) >= 2:
+                        v = float(parts[1])
+                        if v > best_val:
+                            best_val = v
+
+        # if no previous results, keep; else discard unless improved
+        if best_val == float('-inf'):
+            status = 'keep'
+        else:
+            status = 'keep' if acc > best_val else 'discard'
+
+    # ensure results directory exists
+    results_dir = os.path.dirname(results_file)
+    if results_dir:
+        os.makedirs(results_dir, exist_ok=True)
+
     log_result(
         results_file=results_file,
         experiment_id='baseline',

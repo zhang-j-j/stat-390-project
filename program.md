@@ -44,14 +44,14 @@ $env:MKL_NUM_THREADS='1'
 - Preprocessing: StandardScalar, RobustScaler, QuantileTransformer
 - Hyperparameter tuning within the pipeline
 - Dimension reduction methods within the `sklearn.decomposition` module and UMAP: PCA, KernelPCA, FastICA, UMAP
-<!-- - Autoencoder dimension reduction: Hyperparameter tuning within the `AutoencoderTransformer` class -->
+- Autoencoder dimension reduction: Hyperparameter tuning within the `AutoencoderTransformer` class
 
 ## What NOT to do
 
 - Do not modify `prepare.py` (data split, metric)
 - Do not modify the `AutoencoderTransformer` class in `model.py`
 - Do not run an experiment without logging it, even if it is too slow or fails
+- Do not import unnecessary modules into `model.py`
 - Do not add new files or dependencies
 - Do not hard-code validation data into the model
 - Do not change the function signature of `build_model()` or `run_model()`
-- Do not use the `AutoencoderTransformer` class for dimension reduction right now (I will introduce this in the next run of the autoresearch loop, but want to try it without autoencoders first)
