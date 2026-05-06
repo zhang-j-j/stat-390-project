@@ -25,6 +25,7 @@ Maximize **balanced accuracy** on the gene probe classification task.
 6. If improved: `git add model.py && git commit -m "feat: <description>"`
 7. If worse: `git checkout model.py` (revert)
 8. Repeat from step 1
+9. Try this for at most 6 experiments
 
 ## Ideas to explore
 

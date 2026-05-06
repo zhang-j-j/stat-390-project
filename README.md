@@ -82,7 +82,23 @@ Ensure that the file directories are correctly orgnized for the `data/raw/` fold
 | PCA KNN (n=100, k=9) | 3.81 | 0.241 |
 
 
+
 #### Autoresearch Loop
 
-- fill this in later
+The folllowing results were obtained from the first autoresearch loop trial.
+
+| Exp | Model Configuration | Val Acc | Status | Change vs Prev | Notes |
+|-----|---------------------|---------:|--------|---------------:|-------|
+| 0 | Baseline — PCA(250) + KNN(k=8) | 0.240397 | KEPT | — | Initial baseline |
+| 1 | PCA(250) + KNN(k=10) | 0.243506 | KEPT | +0.003109 | Increased KNN neighbors |
+| 2 | PCA(100) + KNN(k=10) | 0.242960 | REVERTED | -0.000546 | Fewer components worse |
+| 3 | PCA(250) + StandardScaler + LogisticRegression | 0.264977 | KEPT | +0.021 (vs baseline) | Major improvement |
+| 4 | PCA(250) + RandomForest(n=30) | 0.238411 | REVERTED | -0.026566 | Worse than baseline |
+| 5 | PCA(150) + LogisticRegression | 0.263351 | REVERTED | -0.001626 | Fewer components worse |
+| 6 | PCA(250) + StandardScaler + LogisticRegression(C=0.1) | 0.265090 | KEPT | +0.000113 | Best so far |
+| 7 | PCA(250) + StandardScaler + LogisticRegression(C=0.01) | 0.264630 | REVERTED | -0.000460 | Stronger regularization hurt |
+| 8 | PCA(250) + RobustScaler + LogisticRegression(C=0.1) | 0.264764 | REVERTED | -0.000326 | StandardScaler slightly better |
+| 9 | PCA(200) + StandardScaler + LogisticRegression(C=0.1) | 0.264355 | REVERTED | -0.000735 | 250 components preferred |
+| 10 | PCA(250) + StandardScaler + SVC(RBF) | TIMEOUT | REVERTED | — | Exceeded 60s runtime budget |
+
 

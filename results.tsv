@@ -1,1 +1,12 @@
 baseline	0.240397	success	Baseline model with no preprocessing or feature engineering.
+baseline	0.240397	baseline	baseline
+baseline	0.243506	keep	increase KNN neighbors to 10
+baseline	0.242960	keep	PCA n_components=100 with KNN k=10
+baseline	0.264977	keep	LogisticRegression with StandardScaler
+baseline	0.238411	keep	RandomForest (n_estimators=30) classifier
+baseline	0.263351	keep	PCA n_components=150 with LogisticRegression
+baseline	0.265090	keep	LogisticRegression with C=0.1 (stronger regularization)
+baseline	0.264630	keep	LogisticRegression with C=0.01 (very strong regularization)
+baseline	0.264764	keep	RobustScaler instead of StandardScaler
+baseline	0.264355	keep	PCA n_components=200 with LogisticRegression C=0.1
+baseline	0.265090	baseline	baseline

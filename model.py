@@ -11,8 +11,12 @@ import subprocess
 import sys
 import time
 from sklearn.pipeline import Pipeline
-from sklearn.decomposition import PCA
+from sklearn.decomposition import PCA, FastICA
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler, RobustScaler
+from sklearn.svm import SVC
 
 from prepare import load_data, evaluate, log_result
 
@@ -34,7 +38,8 @@ def build_model():
     """
     return Pipeline([
         ('pca', PCA(n_components=250)),
-        ('knn', KNeighborsClassifier(n_neighbors=8))
+        ('scaler', StandardScaler()),
+        ('lr', LogisticRegression(max_iter=200, C=0.1, random_state=42))
     ])
 
 def run_model():
@@ -56,7 +61,7 @@ def run_model():
     description = " ".join(description_parts) if description_parts else "experiment"
 
     # load data
-    X_train, X_val, y_train, y_val = load_data()
+    X_train, y_train, X_val, y_val = load_data()
 
     # train model
     model = build_model()
