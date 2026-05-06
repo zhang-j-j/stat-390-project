@@ -14,21 +14,16 @@ import numpy as np
 import tensorflow as tf
 
 from sklearn.pipeline import Pipeline
-from sklearn.decomposition import PCA, FastICA
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier, HistGradientBoostingClassifier
+from sklearn.decomposition import PCA
 from sklearn.linear_model import LogisticRegression
-from sklearn.neural_network import MLPClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.preprocessing import StandardScaler, RobustScaler
-from sklearn.svm import SVC
+from sklearn.preprocessing import StandardScaler
 from sklearn.base import BaseEstimator, TransformerMixin
 
 from prepare import load_data, evaluate, log_result
 
 # EDITABLE - change to the user-specified results file
 # ONLY CHANGE THE SECOND PART OF THE PATH
-results_file = 'results/' + 'third_run_results.tsv'
+results_file = 'results/' + 'fourth_run_results.tsv'
 
 # NOTE: git-hash tracking removed — experiments are logged without auto-commits
 
@@ -37,7 +32,7 @@ def build_model():
     EDITABLE: Return an sklearn Pipeline. This is what the agent improves.
     """
     return Pipeline([
-		('pca', PCA(n_components=200)),
+		('ae', AutoencoderTransformer(latent_dim=64, hidden_units=160, depth=1, epochs=10, batch_size=64, activation='relu', early_stopping=True)),
 		('lr', LogisticRegression(max_iter=200, C=0.1, random_state=42))
 	])
 

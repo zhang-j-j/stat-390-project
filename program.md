@@ -39,17 +39,16 @@ $env:MKL_NUM_THREADS='1'
 
 ## Ideas to explore
 
-- Different classifiers: LogisticRegression, KNeighborsClassifier, DecisionTreeClassifier, SVC, MLPClassifier
-- Ensemble methods: RandomForestClassifier, GradientBoostingClassifier, HistGradientBoostingClassifier
 - Preprocessing: StandardScalar, RobustScaler, QuantileTransformer
-- Hyperparameter tuning within the pipeline
 - Dimension reduction methods within the `sklearn.decomposition` module and UMAP: PCA, KernelPCA, FastICA, UMAP
 - Autoencoder dimension reduction: Hyperparameter tuning within the `AutoencoderTransformer` class
+- Hyperparameter tuning within the other pipeline steps (LogisticRegression classifier, Preprocessing)
 
 ## What NOT to do
 
 - Do not modify `prepare.py` (data split, metric)
 - Do not modify the `AutoencoderTransformer` class in `model.py`
+- Do not change the classifier model from LogisticRegression
 - Do not run an experiment without logging it, even if it is too slow or fails
 - Do not import unnecessary modules into `model.py`
 - Do not add new files or dependencies
