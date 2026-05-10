@@ -12,7 +12,7 @@ import numpy as np
 import tensorflow as tf
 
 from sklearn.pipeline import Pipeline
-from sklearn.decomposition import PCA
+from sklearn.decomposition import PCA, FastICA
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -20,7 +20,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from prepare import load_data, evaluate, log_result
 
 # EDITABLE - change to the user-specified run ID
-RUN_ID = 'first_run'
+RUN_ID = 'run_0'
 
 def build_model():
     """
@@ -29,11 +29,11 @@ def build_model():
     Both dr_model and cls_model should be sklearn Pipelines.
     """
     dr_model = Pipeline([
-		('pca', PCA(n_components=250))
+		('fastica', FastICA(n_components=250, random_state=42, max_iter=500))
     ])
     
     cls_model = Pipeline([
-        ('lr', LogisticRegression(max_iter=200, C=0.1, random_state=42))
+        ('lr', LogisticRegression(max_iter=500, C=0.1, random_state=42, solver='saga'))
     ])
 
     return dr_model, cls_model
@@ -136,7 +136,7 @@ def run_model():
     train_time = time.time() - t0
 
     # evaluate model and log results
-    sil, prec_10, acc = evaluate(cls_model, X_val, y_val)
+    sil, prec_10, acc = evaluate(dr_model, cls_model, X_val, y_val)
     log_result(
         run_id=RUN_ID,
         train_time=train_time,

@@ -1,0 +1,7 @@
+run_id 	runtime	silhouette_score	precision@10	balanced_accuracy	status	description
+run_0	5.51	-0.030370	0.235002	0.262215	baseline	replicate baseline
+run_0	6.24	-0.030465	0.235067	0.266139	discard	add StandardScaler preprocessing to DR pipeline
+run_0	7.30	-0.030144	0.234599	0.260483	discard	increase PCA components to 350
+run_0	180.00+	---	---	---	fail	try KernelPCA with rbf kernel
+run_0	205.55	-0.008012	0.241386	0.265090	keep	try FastICA decomposition
+run_0	209.87	-0.008012	0.241386	0.264652	keep	increase LogisticRegression max_iter to 500 with saga solver

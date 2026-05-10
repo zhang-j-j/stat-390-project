@@ -17,7 +17,7 @@ You are an autoresearch agent. Your goal is to produce the **best dimension redu
 4. `build_model()` must return a tuple of 2 sklearn Pipelines - `(dr_model, cls_model)`
    1. `dr_model` is a dimensionality reduction model
    2. `cls_model` is a classifier
-5. Training + evaluation must complete in **under 3 minutes (180 seconds)** on CPU
+5. Training + evaluation must complete in **under 10 minutes (600 seconds)** on CPU
 6. No additional data sources or external downloads
 7. Document **all** of your  in `results/agent_experiment_notes.md`
 
@@ -37,6 +37,7 @@ $env:MKL_NUM_THREADS='1'
 3. Read current `model.py` and propose a modification to `build_model()`
 4. Edit `model.py`
 5. Run `python model.py "description of change"`
+   1. If the runtime exceeds the allotment (10 minutes = 600 seconds), terminate the experiment
 6. Evaluate the experiment success according to silhouette score and precision@10
    1. If the silhouette score improves by at least 0.005, **keep** the modifications as a successful experiment
    2. If the silhouette score improves by between 0-0.005 and precision@10 improves, **keep** the modifications as a successful experiment
@@ -80,6 +81,7 @@ At the end of each autoresearch loop, create a summary table of all experiments 
 - Do not modify the `AutoencoderTransformer` class in `model.py`
 - Do not change the classifier model from LogisticRegression
 - Do not run an experiment without logging it, even if it is too slow or fails
+- Do not run an experiment for longer than the allotted time
 - Do not import unnecessary modules into `model.py`
 - Do not add new files or dependencies
 - Do not hard-code validation data into the model
