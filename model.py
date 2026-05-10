@@ -12,7 +12,7 @@ import numpy as np
 import tensorflow as tf
 
 from sklearn.pipeline import Pipeline
-from sklearn.decomposition import PCA, FastICA
+from sklearn.decomposition import FastICA
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -20,7 +20,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from prepare import load_data, evaluate, log_result
 
 # EDITABLE - change to the user-specified run ID
-RUN_ID = 'run_0'
+RUN_ID = 'run_1'
 
 def build_model():
     """

@@ -5,3 +5,16 @@ run_0	7.30	-0.030144	0.234599	0.260483	discard	increase PCA components to 350
 run_0	180.00+	---	---	---	fail	try KernelPCA with rbf kernel
 run_0	205.55	-0.008012	0.241386	0.265090	keep	try FastICA decomposition
 run_0	209.87	-0.008012	0.241386	0.264652	keep	increase LogisticRegression max_iter to 500 with saga solver
+run_1	359.40	-0.007979	0.238968	0.263437	discard	RobustScaler preprocessing before FastICA
+run_1	199.98	-0.006324	0.237394	0.263286	discard	QuantileTransformer preprocessing before FastICA
+run_1	231.04	-0.008770	0.241607	0.264555	discard	FastICA with n_components=200 (reduce dimensionality)
+run_1	422.12	-0.007894	0.241672	0.261376	discard	FastICA with n_components=300
+run_1	600.00+	---	---	---	fail	DictionaryLearning decomposition with n_components=250
+run_1	860.89	-0.008012	0.241386	0.264652	discard	FastICA with max_iter=1000 and tol=1e-4 for better convergence
+run_1	315.19	-0.008012	0.241386	0.264670	discard	LogisticRegression with C=1.0 (less regularization)
+run_1	165.51	-0.008012	0.241386	0.264311	discard	LogisticRegression with C=0.01 (more regularization)
+run_1	424.04	-0.023219	0.238669	0.256687	discard	AutoencoderTransformer with latent_dim=250, hidden_units=512, depth=2, epochs=20
+run_1	199.39	-0.008036	0.240619	0.263919	discard	FastICA with n_components=275
+run_1	293.05	-0.008012	0.241386	0.264652	discard	FastICA + StandardScaler preprocessing in classifier pipeline
+run_1	600.00+	---	---	---	fail	FastICA with algorithm='deflation'
+run_1	67.86	-0.030370	0.235002	0.264659	discard	PCA with n_components=250
