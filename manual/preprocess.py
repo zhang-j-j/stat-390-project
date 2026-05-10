@@ -1,5 +1,5 @@
 """
-
+Preprocess raw microarray data
 """
 
 import pandas as pd
@@ -13,7 +13,7 @@ RANDOM_SEED = 42
 
 def prepare_data(raw_path, cleaned_path):
     """
-    
+    Prepare and split data into training and testing
     """
 
     # load raw data

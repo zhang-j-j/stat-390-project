@@ -10,24 +10,28 @@ high level description (fill in later)
 
 ### Repository structure
 
-- key files shown
+Key files and directories (high level):
 
 ```
 stat-390-project/
 ├── data/                               # microarray dataset from one brain (Donor 9861)
-    └── raw/                            # raw data files
-        └── ...                         
-    └── cleaned/                        # possible additional datasets from other brains
-        └── ...                         # cleaned and split datasets
+    ├── raw/                            # raw data files (place downloaded dataset here)
+    └── cleaned/                        # processed/cleaned datasets
 ├── manual/                             # FROZEN - code for manual tasks
-    ├── initial_exploration.ipynb       # initial data exploration and preprocessing
-    ├── baseline.ipynb                  # manually implemented baseline model
-    ├── final_analysis.ipynb            # analysis code of final results
+    ├── initial_exploration.ipynb       # initial manual exploration
+    ├── preprocess.py                   # preprocessing for raw data
+    ├── new_baseline.py                 # baseline model with new workflow
+    ├── baseline.py                     # baseline model with old workflow
+    ├── baseline_autoencoder.py         # baseline autoencoder model
+    ├── analysis.ipynb                  # analysis code for experiment results
     └── ...                             # additional files as needed
 ├── model.py                            # EDITABLE - agent-improved model code
-├── prepare.py                          # FROZEN - initial model setup
-├── program.md                          # FROZEN - user-defined agent instructions
-└── results.tsv                         # GENERATED - logged experiment results
+├── prepare.py                          # FROZEN - helper functions for model setup and evaluation
+├── program.md                          # FROZEN - user-defined agent instructions and research plan
+├── results/                            # experiment logs and derived outputs
+    ├── old/                            # results from old workflow
+    ├── agent_experiment_notes.md       # agent-produced
+    └── results.tsv                     # full experiment results
 ```
 
 ### How to run the project
