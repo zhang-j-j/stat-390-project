@@ -40,6 +40,14 @@ Agent behavior guidelines
 - Reproducible environment: prefer the `uv` workflow from [README.md](README.md). If changes add new deps, update `pyproject.toml`.
 - Data safety: do not commit large raw datasets; keep them in `data/raw/` and document steps to reproduce cleaned data in `manual/preprocess.py`.
 
+Available agent skills (.agents/skills/)
+- **markdown-mermaid-writing**: Comprehensive markdown and Mermaid diagram writing skill — use for scientific docs and text-based diagrams. See [.agents/skills/markdown-mermaid-writing/SKILL.md](.agents/skills/markdown-mermaid-writing/SKILL.md).
+- **matplotlib**: Low-level plotting guidance for publication-ready static and interactive plots. See [.agents/skills/matplotlib/SKILL.md](.agents/skills/matplotlib/SKILL.md).
+- **scientific-visualization**: Meta-skill for journal-ready multi-panel figures and export workflows. See [.agents/skills/scientific-visualization/SKILL.md](.agents/skills/scientific-visualization/SKILL.md).
+- **scikit-learn**: Classical ML guidance — training, evaluation, pipelines, and preprocessing. See [.agents/skills/scikit-learn/SKILL.md](.agents/skills/scikit-learn/SKILL.md).
+- **seaborn**: Statistical visualization with DataFrame integration and high-level plotting APIs. See [.agents/skills/seaborn/SKILL.md](.agents/skills/seaborn/SKILL.md).
+- **umap-learn**: UMAP dimensionality reduction guidance for visualization and clustering preprocessing. See [.agents/skills/umap-learn/SKILL.md](.agents/skills/umap-learn/SKILL.md).
+
 Suggested next customizations (optional)
 - Create a small `agent-runner` skill that:
   - Runs `python model.py` with a provided description and captures `results/results.tsv` output.

@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "skills": {
+    "markdown-mermaid-writing": {
+      "source": "K-Dense-AI/scientific-agent-skills",
+      "sourceType": "github",
+      "skillPath": "scientific-skills/markdown-mermaid-writing/SKILL.md",
+      "computedHash": "bc30524cf08b1b43238ab474e7f16d2e94214e8ba52d0778c64d19f17bb4e30d"
+    },
+    "matplotlib": {
+      "source": "K-Dense-AI/scientific-agent-skills",
+      "sourceType": "github",
+      "skillPath": "scientific-skills/matplotlib/SKILL.md",
+      "computedHash": "6aa1b561363b3d51b8ba589564b6040007e95aa66897915ab9bb6495063e62e1"
+    },
+    "scientific-visualization": {
+      "source": "K-Dense-AI/scientific-agent-skills",
+      "sourceType": "github",
+      "skillPath": "scientific-skills/scientific-visualization/SKILL.md",
+      "computedHash": "d3eb902482ba3d1f00b53cf9bb5fe597e92b1f27e1f0be01b460c089a15313ba"
+    },
+    "scikit-learn": {
+      "source": "K-Dense-AI/scientific-agent-skills",
+      "sourceType": "github",
+      "skillPath": "scientific-skills/scikit-learn/SKILL.md",
+      "computedHash": "ddfef7c5736cb481312ab88bfefb32920004ad67e35befbb7dab58048b3b5f73"
+    },
+    "seaborn": {
+      "source": "K-Dense-AI/scientific-agent-skills",
+      "sourceType": "github",
+      "skillPath": "scientific-skills/seaborn/SKILL.md",
+      "computedHash": "113d2d3dfbffdaffd63843ef2ac5bd7b9e38c8c682b8638d4ebf7df3642d1397"
+    },
+    "umap-learn": {
+      "source": "K-Dense-AI/scientific-agent-skills",
+      "sourceType": "github",
+      "skillPath": "scientific-skills/umap-learn/SKILL.md",
+      "computedHash": "c8fd5cba2ae13ebc39eb37bec8b04e334980d7eecfbb037b2be97047cf687e10"
+    }
+  }
+}
