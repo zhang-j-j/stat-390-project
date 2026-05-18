@@ -336,3 +336,171 @@
 | run_1 | 11 | FastICA + StandardScaler(cls) | -0.008012 | 0.241386 | 0.264652 | 293.05s | discard |
 | run_1 | 12 | FastICA(algorithm='deflation') | --- | --- | --- | 600.00+s | **fail** |
 | run_1 | 13 | PCA(n_comp=250) | -0.030370 | 0.235002 | 0.264659 | 67.86s | discard |
+
+---
+
+## run_2
+
+### Experiment 1: KernelPCA (rbf, gamma=1e-3, n_components=250) with StandardScaler
+**Change:** Replaced FastICA with an RBF KernelPCA pipeline and added StandardScaler preprocessing.
+
+**Rationale:** Non-linear kernels may capture complex gene expression structure; scaling helps RBF kernel behavior.
+
+**Results:**
+- **Status: FAIL** - Exceeded 10-minute (600s) runtime limit. Computation terminated.
+- Runtime: 600.00+s
+
+---
+
+### Experiment 2: KernelPCA (poly, degree=3, gamma=1e-3, n_components=150) with StandardScaler
+**Change:** Replaced FastICA with a polynomial KernelPCA pipeline and reduced the component count.
+
+**Rationale:** Polynomial kernels may capture different non-linear structure while fewer components reduce runtime.
+
+**Results:**
+- **Status: FAIL** - Exceeded 10-minute (600s) runtime limit. Computation terminated.
+- Runtime: 600.00+s
+
+---
+
+### Experiment 3: MiniBatchDictionaryLearning (n_components=200) with StandardScaler
+**Change:** Replaced FastICA with MiniBatchDictionaryLearning using 200 components and minibatch training.
+
+**Rationale:** Sparse dictionary learning may uncover more discriminative latent structure while staying within runtime limits.
+
+**Results:**
+- Silhouette Score: -0.007132 (improved by 0.000880 vs FastICA baseline)
+- Precision@10: 0.230516 (decreased by 0.010870)
+- Balanced Accuracy: 0.264709
+- Runtime: 175.79s
+- **Status: DISCARD** - Precision@10 dropped substantially
+
+---
+
+### Experiment 4: TruncatedSVD (n_components=250, n_iter=10) with StandardScaler
+**Change:** Replaced FastICA with TruncatedSVD after StandardScaler preprocessing.
+
+**Rationale:** TruncatedSVD provides a fast linear baseline that may capture variance differently than PCA.
+
+**Results:**
+- Silhouette Score: -0.030468 (worsened by 0.022456 vs FastICA baseline)
+- Precision@10: 0.234651 (decreased by 0.006735)
+- Balanced Accuracy: 0.263694
+- Runtime: 71.89s
+- **Status: DISCARD** - Metrics substantially worse than FastICA
+
+---
+
+### Experiment 5: FastICA with fun='exp'
+**Change:** Switched FastICA nonlinearity from default `logcosh` to `exp`.
+
+**Rationale:** Alternative nonlinearities can improve component separation for some distributions.
+
+**Results:**
+- Silhouette Score: -0.008012 (no change vs FastICA baseline)
+- Precision@10: 0.241386 (no change vs FastICA baseline)
+- Balanced Accuracy: 0.264652
+- Runtime: 231.27s
+- **Status: DISCARD** - No metric improvement; convergence warning observed
+
+---
+
+### Experiment 6: StandardScaler + FastICA (n_components=250)
+**Change:** Added StandardScaler before FastICA in the DR pipeline.
+
+**Rationale:** Standard scaling may improve ICA stability by normalizing feature variance.
+
+**Results:**
+- Silhouette Score: -0.008151 (worsened by 0.000139 vs FastICA baseline)
+- Precision@10: 0.240528 (decreased by 0.000858)
+- Balanced Accuracy: 0.263021
+- Runtime: 199.10s
+- **Status: DISCARD** - Metrics worsened; convergence warning observed
+
+---
+
+### Experiment 7: FastICA with fun='cube'
+**Change:** Switched FastICA nonlinearity to `cube`.
+
+**Rationale:** The `cube` nonlinearity can sometimes better separate super-Gaussian sources.
+
+**Results:**
+- Silhouette Score: -0.008012 (no change vs FastICA baseline)
+- Precision@10: 0.241386 (no change vs FastICA baseline)
+- Balanced Accuracy: 0.264652
+- Runtime: 123.94s
+- **Status: DISCARD** - No metric improvement
+
+---
+
+### Experiment 8: PCA(500) -> FastICA(250)
+**Change:** Added a PCA pre-reduction step (500 components) before FastICA.
+
+**Rationale:** PCA may denoise and speed ICA by removing low-variance dimensions.
+
+**Results:**
+- Silhouette Score: -0.008022 (worsened by 0.000010 vs FastICA baseline)
+- Precision@10: 0.241022 (decreased by 0.000364)
+- Balanced Accuracy: 0.265024
+- Runtime: 179.01s
+- **Status: DISCARD** - No metric improvement; convergence warning observed
+
+---
+
+### Experiment 9: UMAP (n_components=100, n_neighbors=15, min_dist=0.1, metric='cosine')
+**Change:** Replaced FastICA with StandardScaler + UMAP using cosine distance.
+
+**Rationale:** UMAP may capture non-linear manifold structure better than linear ICA/PCA.
+
+**Results:**
+- Silhouette Score: -0.046513 (worsened by 0.038501 vs FastICA baseline)
+- Precision@10: 0.227214 (decreased by 0.014172)
+- Balanced Accuracy: 0.209294
+- Runtime: 135.85s
+- **Status: DISCARD** - Metrics substantially worse than baseline
+
+---
+
+### Experiment 10: Supervised UMAP (n_components=100, n_neighbors=30, min_dist=0.0, metric='cosine')
+**Change:** Replaced FastICA with StandardScaler + supervised UMAP using label guidance.
+
+**Rationale:** Supervised UMAP may align the embedding with class structure to improve downstream classification.
+
+**Results:**
+- Silhouette Score: -0.050389 (worsened by 0.042377 vs FastICA baseline)
+- Precision@10: 0.227877 (decreased by 0.013509)
+- Balanced Accuracy: 0.208391
+- Runtime: 153.47s
+- **Status: DISCARD** - Metrics substantially worse than baseline
+
+---
+
+### Experiment 11: UMAP (n_components=50, n_neighbors=10, min_dist=0.3, metric='cosine')
+**Change:** Replaced FastICA with StandardScaler + UMAP using fewer components and tighter neighborhood size.
+
+**Rationale:** Smaller embeddings and tighter neighborhoods can emphasize local structure that might improve precision.
+
+**Results:**
+- Silhouette Score: -0.039372 (worsened by 0.031360 vs FastICA baseline)
+- Precision@10: 0.226915 (decreased by 0.014471)
+- Balanced Accuracy: 0.211815
+- Runtime: 70.32s
+- **Status: DISCARD** - Metrics substantially worse than baseline
+
+---
+
+### Summary Table
+
+| Exp # | Description | Sil Score | Prec@10 | Acc | Runtime | Status |
+|-------|-------------|-----------|---------|-----|---------|--------|
+| 1 | KernelPCA rbf (gamma=1e-3, n=250) | --- | --- | --- | 600.00+s | **fail** |
+| 2 | KernelPCA poly (deg=3, gamma=1e-3, n=150) | --- | --- | --- | 600.00+s | **fail** |
+| 3 | MiniBatchDictionaryLearning (n=200) | -0.007132 | 0.230516 | 0.264709 | 175.79s | discard |
+| 4 | TruncatedSVD (n=250, n_iter=10) + StandardScaler | -0.030468 | 0.234651 | 0.263694 | 71.89s | discard |
+| 5 | FastICA fun='exp' | -0.008012 | 0.241386 | 0.264652 | 231.27s | discard |
+| 6 | StandardScaler + FastICA (n=250) | -0.008151 | 0.240528 | 0.263021 | 199.10s | discard |
+| 7 | FastICA fun='cube' | -0.008012 | 0.241386 | 0.264652 | 123.94s | discard |
+| 8 | PCA(500) -> FastICA(250) | -0.008022 | 0.241022 | 0.265024 | 179.01s | discard |
+| 9 | UMAP (n=100, neighbors=15, min_dist=0.1, metric=cosine) | -0.046513 | 0.227214 | 0.209294 | 135.85s | discard |
+| 10 | Supervised UMAP (n=100, neighbors=30, min_dist=0.0, metric=cosine) | -0.050389 | 0.227877 | 0.208391 | 153.47s | discard |
+| 11 | UMAP (n=50, neighbors=10, min_dist=0.3, metric=cosine) | -0.039372 | 0.226915 | 0.211815 | 70.32s | discard |

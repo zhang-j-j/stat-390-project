@@ -20,7 +20,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from prepare import load_data, evaluate, log_result
 
 # EDITABLE - change to the user-specified run ID
-RUN_ID = 'run_1'
+RUN_ID = 'run_2'
 
 def build_model():
     """
@@ -29,7 +29,7 @@ def build_model():
     Both dr_model and cls_model should be sklearn Pipelines.
     """
     dr_model = Pipeline([
-		('fastica', FastICA(n_components=250, random_state=42, max_iter=500))
+        ('fastica', FastICA(n_components=250, random_state=42, max_iter=500))
     ])
     
     cls_model = Pipeline([

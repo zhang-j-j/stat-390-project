@@ -11,5 +11,6 @@
 
 Run IDs
 
-- run_0: trial run with the new setup (runtime was 3 min, increased for future runs)
-- 
+- run_0: trial run with the new setup (runtime was 3 min, increased for future runs) - claude haiku 4.5
+- run_1: longer run with the new setup (10 min runtime) - claude haiku 4.5
+- run_2: run with skills, revisit old experiments with timeout, more powerful model - gpt 5.2 codex

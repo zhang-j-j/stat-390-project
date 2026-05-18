@@ -6,6 +6,7 @@
 
 You are an autoresearch agent. Your goal is to produce the **best dimension reduction** model for the gene probe data.
 
+- Use any available **agent skills** that will help you perform better.
 - Focus on identifying a low-dimensional representation of the gene expression data that maximizes **silhouette score** and **precision@10**.
 - Ultimately, I will assess overall performance using **balanced accuracy** in the classification task.
 

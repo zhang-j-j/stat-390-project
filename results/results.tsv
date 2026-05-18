@@ -18,3 +18,14 @@ run_1	199.39	-0.008036	0.240619	0.263919	discard	FastICA with n_components=275
 run_1	293.05	-0.008012	0.241386	0.264652	discard	FastICA + StandardScaler preprocessing in classifier pipeline
 run_1	600.00+	---	---	---	fail	FastICA with algorithm='deflation'
 run_1	67.86	-0.030370	0.235002	0.264659	discard	PCA with n_components=250
+run_2	600.00+	---	---	---	fail	KernelPCA rbf gamma=1e-3 n=250
+run_2	600.00+	---	---	---	fail	KernelPCA poly deg=3 gamma=1e-3 n=150
+run_2	175.79	-0.007132	0.230516	0.264709	discard	run_2 exp3: MiniBatchDictionaryLearning n=200 alpha=1.0 batch=256 max_iter=500
+run_2	71.89	-0.030468	0.234651	0.263694	discard	run_2 exp4: TruncatedSVD n=250 n_iter=10 + StandardScaler
+run_2	231.27	-0.008012	0.241386	0.264652	discard	run_2 exp5: FastICA fun=exp
+run_2	199.10	-0.008151	0.240528	0.263021	discard	run_2 exp6: StandardScaler + FastICA n=250
+run_2	123.94	-0.008012	0.241386	0.264652	discard	run_2 exp7: FastICA fun=cube
+run_2	179.01	-0.008022	0.241022	0.265024	discard	run_2 exp8: PCA(500)->FastICA(250)
+run_2	135.85	-0.046513	0.227214	0.209294	discard	run_2 exp9: UMAP n=100 neighbors=15 min_dist=0.1 metric=cosine
+run_2	153.47	-0.050389	0.227877	0.208391	discard	run_2 exp10: supervised UMAP n=100 neighbors=30 min_dist=0.0 metric=cosine
+run_2	70.32	-0.039372	0.226915	0.211815	discard	run_2 exp11: UMAP n=50 neighbors=10 min_dist=0.3 metric=cosine
