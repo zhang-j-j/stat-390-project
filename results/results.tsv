@@ -29,3 +29,4 @@ run_2	179.01	-0.008022	0.241022	0.265024	discard	run_2 exp8: PCA(500)->FastICA(2
 run_2	135.85	-0.046513	0.227214	0.209294	discard	run_2 exp9: UMAP n=100 neighbors=15 min_dist=0.1 metric=cosine
 run_2	153.47	-0.050389	0.227877	0.208391	discard	run_2 exp10: supervised UMAP n=100 neighbors=30 min_dist=0.0 metric=cosine
 run_2	70.32	-0.039372	0.226915	0.211815	discard	run_2 exp11: UMAP n=50 neighbors=10 min_dist=0.3 metric=cosine
+manual	2583.61	-0.010360	0.230165	0.236920	discard	manual kernelpca test

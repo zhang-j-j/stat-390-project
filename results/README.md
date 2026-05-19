@@ -14,3 +14,5 @@ Run IDs
 - run_0: trial run with the new setup (runtime was 3 min, increased for future runs) - claude haiku 4.5
 - run_1: longer run with the new setup (10 min runtime) - claude haiku 4.5
 - run_2: run with skills, revisit old experiments with timeout, more powerful model - gpt 5.2 codex
+- manaul: manual run of kernel PCA with no timeout limit to assess runtime
+- run_3: full run, let the agent do what it thinks is best - gpt 5.2 codex

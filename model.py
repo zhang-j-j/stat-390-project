@@ -12,7 +12,7 @@ import numpy as np
 import tensorflow as tf
 
 from sklearn.pipeline import Pipeline
-from sklearn.decomposition import FastICA
+from sklearn.decomposition import KernelPCA
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -28,8 +28,9 @@ def build_model():
     
     Both dr_model and cls_model should be sklearn Pipelines.
     """
+    # Simple kernel PCA specification for testing runtime feasibility
     dr_model = Pipeline([
-        ('fastica', FastICA(n_components=250, random_state=42, max_iter=500))
+        ('kpca', KernelPCA(n_components=250, kernel='rbf', gamma=1e-3))
     ])
     
     cls_model = Pipeline([

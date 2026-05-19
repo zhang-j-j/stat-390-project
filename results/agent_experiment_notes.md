@@ -504,3 +504,10 @@
 | 9 | UMAP (n=100, neighbors=15, min_dist=0.1, metric=cosine) | -0.046513 | 0.227214 | 0.209294 | 135.85s | discard |
 | 10 | Supervised UMAP (n=100, neighbors=30, min_dist=0.0, metric=cosine) | -0.050389 | 0.227877 | 0.208391 | 153.47s | discard |
 | 11 | UMAP (n=50, neighbors=10, min_dist=0.3, metric=cosine) | -0.039372 | 0.226915 | 0.211815 | 70.32s | discard |
+
+## manual
+
+### Manual Experiment: (Kernel PCA)
+
+- Run this without any runtime limit to see how long it takes
+- The metrics are not better than the baseline, while taking well over the allotted time, so it is not worth increasing the time limit for
