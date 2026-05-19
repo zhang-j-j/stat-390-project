@@ -511,3 +511,410 @@
 
 - Run this without any runtime limit to see how long it takes
 - The metrics are not better than the baseline, while taking well over the allotted time, so it is not worth increasing the time limit for
+
+---
+
+## run_3
+
+### Baseline: FastICA(250) + LR(saga, C=0.1)
+**Change:** Baseline run with FastICA and LogisticRegression.
+
+**Rationale:** Establish a fresh baseline for run_3 using the prior best configuration.
+
+**Results:**
+- Silhouette Score: -0.008012
+- Precision@10: 0.241386
+- Balanced Accuracy: 0.264652
+- Runtime: 87.90s
+- **Status: BASELINE**
+
+---
+
+### Experiment 1: PowerTransformer(yeo-johnson) + FastICA(250)
+**Change:** Added PowerTransformer (yeo-johnson, standardize=True) before FastICA.
+
+**Rationale:** Gaussianize feature distributions to improve ICA source separation.
+
+**Results:**
+- Silhouette Score: -0.008832 (worsened by 0.000820 vs baseline)
+- Precision@10: 0.240008 (decreased by 0.001378)
+- Balanced Accuracy: 0.260604
+- Runtime: 97.63s
+- **Status: DISCARD** - Metrics worsened
+
+---
+
+### Experiment 2: PCA(250, whiten=True, randomized)
+**Change:** Replaced FastICA with whitened PCA using randomized SVD.
+
+**Rationale:** Test whether whitening improves cluster separation with a fast linear baseline.
+
+**Results:**
+- Silhouette Score: -0.008436 (worsened by 0.000424 vs baseline)
+- Precision@10: 0.239540 (decreased by 0.001846)
+- Balanced Accuracy: 0.264291
+- Runtime: 9.23s
+- **Status: DISCARD** - Metrics worsened
+
+---
+
+### Experiment 3: FactorAnalysis(250, randomized)
+**Change:** Replaced FastICA with FactorAnalysis using randomized SVD.
+
+**Rationale:** Test a probabilistic linear latent model as an alternative to ICA.
+
+**Results:**
+- Silhouette Score: -0.009333 (worsened by 0.001321 vs baseline)
+- Precision@10: 0.243856 (increased by 0.002470)
+- Balanced Accuracy: 0.260639
+- Runtime: 42.06s
+- **Status: DISCARD** - Silhouette worsened
+
+---
+
+### Experiment 4: MinMaxScaler + NMF(250, nndsvda)
+**Change:** Replaced FastICA with MinMaxScaler + NMF (n_components=250).
+
+**Rationale:** Test a non-negative parts-based representation for gene expression features.
+
+**Results:**
+- Runtime: 600.00+s
+- **Status: FAIL** - Exceeded 10-minute runtime limit; terminated
+
+---
+
+### Experiment 5: SparseRandomProjection(250)
+**Change:** Replaced FastICA with SparseRandomProjection (n_components=250).
+
+**Rationale:** Test a fast random projection baseline to assess structure preservation.
+
+**Results:**
+- Silhouette Score: -0.028808 (worsened by 0.020796 vs baseline)
+- Precision@10: 0.235964 (decreased by 0.005422)
+- Balanced Accuracy: 0.260270
+- Runtime: 72.52s
+- **Status: DISCARD** - Metrics substantially worse
+
+---
+
+### Experiment 6: MiniBatchSparsePCA(250, alpha=1e-3)
+**Change:** Replaced FastICA with MiniBatchSparsePCA.
+
+**Rationale:** Test sparse linear components with mini-batch optimization for scalability.
+
+**Results:**
+- Runtime: 600.00+s
+- **Status: FAIL** - Exceeded 10-minute runtime limit; terminated
+
+---
+
+### Experiment 7: StandardScaler + MiniBatchDictionaryLearning(100, alpha=0.5)
+**Change:** Replaced FastICA with StandardScaler + MiniBatchDictionaryLearning (n_components=100).
+
+**Rationale:** Test a smaller dictionary size to improve precision while maintaining silhouette.
+
+**Results:**
+- Silhouette Score: -0.007961 (improved by 0.000051 vs baseline)
+- Precision@10: 0.225536 (decreased by 0.015850)
+- Balanced Accuracy: 0.264395
+- Runtime: 130.27s
+- **Status: DISCARD** - Precision@10 dropped substantially
+
+---
+
+### Experiment 8: StandardScaler + IncrementalPCA(250, batch=256)
+**Change:** Replaced FastICA with StandardScaler + IncrementalPCA.
+
+**Rationale:** Test an incremental linear baseline that may better handle high-dimensional data.
+
+**Results:**
+- Silhouette Score: -0.030476 (worsened by 0.022464 vs baseline)
+- Precision@10: 0.234898 (decreased by 0.006488)
+- Balanced Accuracy: 0.263617
+- Runtime: 71.38s
+- **Status: DISCARD** - Metrics substantially worse
+
+---
+
+### Experiment 9: FastICA(n_components=150)
+**Change:** Reduced FastICA components from 250 to 150.
+
+**Rationale:** Fewer components may reduce noise and improve cluster quality.
+
+**Results:**
+- Silhouette Score: -0.011678 (worsened by 0.003666 vs baseline)
+- Precision@10: 0.238864 (decreased by 0.002522)
+- Balanced Accuracy: 0.263323
+- Runtime: 40.31s
+- **Status: DISCARD** - Metrics worsened
+
+---
+
+### Experiment 10: StandardScaler + GaussianRandomProjection(250)
+**Change:** Replaced FastICA with StandardScaler + GaussianRandomProjection.
+
+**Rationale:** Test a dense random projection baseline with normalized features.
+
+**Results:**
+- Silhouette Score: -0.028635 (worsened by 0.020623 vs baseline)
+- Precision@10: 0.232740 (decreased by 0.008646)
+- Balanced Accuracy: 0.258667
+- Runtime: 54.34s
+- **Status: DISCARD** - Metrics substantially worse
+
+---
+
+### Experiment 11: MinMaxScaler + NMF(50, nndsvda)
+**Change:** Replaced FastICA with MinMaxScaler + NMF (n_components=50).
+
+**Rationale:** Test a smaller NMF to reduce runtime while enforcing non-negativity.
+
+**Results:**
+- **Status: FAIL** - Error during evaluation: negative values passed to NMF on validation data
+
+---
+
+### Experiment 12: StandardScaler + PCA(300) -> FastICA(200)
+**Change:** Added StandardScaler + PCA pre-reduction before FastICA.
+
+**Rationale:** Denoise and reduce dimensionality before ICA to improve stability.
+
+**Results:**
+- Silhouette Score: -0.008837 (worsened by 0.000825 vs baseline)
+- Precision@10: 0.240255 (decreased by 0.001131)
+- Balanced Accuracy: 0.265729
+- Runtime: 54.43s
+- **Status: DISCARD** - Metrics worsened
+
+---
+
+### Experiment 13: FastICA(n_components=350)
+**Change:** Increased FastICA components from 250 to 350.
+
+**Rationale:** More components may preserve additional structure.
+
+**Results:**
+- Silhouette Score: -0.007750 (improved by 0.000262 vs baseline)
+- Precision@10: 0.239436 (decreased by 0.001950)
+- Balanced Accuracy: 0.265102
+- Runtime: 118.60s
+- **Status: DISCARD** - Precision@10 decreased
+
+---
+
+### Experiment 14: FastICA(250) + LR(class_weight=balanced)
+**Change:** Added `class_weight='balanced'` to LogisticRegression.
+
+**Rationale:** Address class imbalance to improve balanced accuracy.
+
+**Results:**
+- Silhouette Score: -0.008012 (no change vs baseline)
+- Precision@10: 0.241386 (no change vs baseline)
+- Balanced Accuracy: 0.279145 (improved by 0.014493)
+- Runtime: 73.94s
+- **Status: KEEP** - Balanced accuracy improved by > 0.005
+
+---
+
+### Experiment 15: FastICA(250) + LR(class_weight=balanced, C=1.0)
+**Change:** Increased LogisticRegression regularization strength (C=1.0) with class balancing.
+
+**Rationale:** Test whether less regularization improves balanced accuracy further.
+
+**Results:**
+- Silhouette Score: -0.008012 (no change vs baseline)
+- Precision@10: 0.241386 (no change vs baseline)
+- Balanced Accuracy: 0.279039 (decreased by 0.000106 vs exp14)
+- Runtime: 78.82s
+- **Status: DISCARD** - Balanced accuracy did not improve by 0.005
+
+---
+
+### Experiment 16: FastICA(250) + LR(class_weight=balanced, l1, C=0.1)
+**Change:** Switched LogisticRegression to L1 penalty with class balancing.
+
+**Rationale:** Encourage sparsity in classifier weights to improve generalization.
+
+**Results:**
+- Silhouette Score: -0.008012 (no change vs baseline)
+- Precision@10: 0.241386 (no change vs baseline)
+- Balanced Accuracy: 0.279875 (improved by 0.000730 vs exp14)
+- Runtime: 106.63s
+- **Status: DISCARD** - Balanced accuracy did not improve by 0.005
+
+---
+
+### Experiment 17: FastICA(250) + LR(class_weight=balanced, elasticnet 0.5)
+**Change:** Switched LogisticRegression to elasticnet penalty (l1_ratio=0.5).
+
+**Rationale:** Balance L1 and L2 regularization to improve generalization.
+
+**Results:**
+- Silhouette Score: -0.008012 (no change vs baseline)
+- Precision@10: 0.241386 (no change vs baseline)
+- Balanced Accuracy: 0.280108 (improved by 0.000963 vs exp14)
+- Runtime: 157.98s
+- **Status: DISCARD** - Balanced accuracy did not improve by 0.005
+
+---
+
+### Experiment 18: FastICA(250) + LR(class_weight=balanced, liblinear)
+**Change:** Switched LogisticRegression solver to `liblinear`.
+
+**Rationale:** Test an alternative solver that sometimes improves classification.
+
+**Results:**
+- **Status: FAIL** - Error: liblinear does not support multiclass without OneVsRest
+
+---
+
+### Experiment 19: FastICA(250) + LR(class_weight=balanced, lbfgs)
+**Change:** Switched LogisticRegression solver to `lbfgs`.
+
+**Rationale:** Test multinomial solver for potentially better convergence.
+
+**Results:**
+- Silhouette Score: -0.008012 (no change vs baseline)
+- Precision@10: 0.241386 (no change vs baseline)
+- Balanced Accuracy: 0.279006 (decreased by 0.000139 vs exp14)
+- Runtime: 74.36s
+- **Status: DISCARD** - Balanced accuracy did not improve by 0.005
+
+---
+
+### Experiment 20: FastICA(250) + LR(class_weight=balanced, C=0.05)
+**Change:** Decreased LogisticRegression C to 0.05 with class balancing.
+
+**Rationale:** Test stronger regularization for improved generalization.
+
+**Results:**
+- Silhouette Score: -0.008012 (no change vs baseline)
+- Precision@10: 0.241386 (no change vs baseline)
+- Balanced Accuracy: 0.279252 (improved by 0.000107 vs exp14)
+- Runtime: 72.64s
+- **Status: DISCARD** - Balanced accuracy did not improve by 0.005
+
+---
+
+### Experiment 21: FastICA(250) + LR(class_weight=balanced, ovr)
+**Change:** Attempted to set `multi_class='ovr'`.
+
+**Rationale:** Test one-vs-rest strategy for multiclass classification.
+
+**Results:**
+- **Status: FAIL** - Error: `multi_class` argument unsupported in current sklearn
+
+---
+
+### Experiment 22: FastICA(250) logcosh alpha=0.5
+**Change:** Attempted to set `fun_args={'alpha': 0.5}` for FastICA.
+
+**Rationale:** Tune the nonlinearity parameter for potentially better separation.
+
+**Results:**
+- **Status: FAIL** - Error: alpha must be in [1,2]
+
+---
+
+### Experiment 23: Autoencoder(128, hidden=256, depth=1, epochs=10)
+**Change:** Replaced FastICA with a smaller AutoencoderTransformer.
+
+**Rationale:** Re-test non-linear DR with a lighter autoencoder to reduce overfitting and runtime.
+
+**Results:**
+- Silhouette Score: -0.025106 (worsened by 0.017094 vs baseline)
+- Precision@10: 0.235470 (decreased by 0.005916)
+- Balanced Accuracy: 0.276611
+- Runtime: 119.07s
+- **Status: DISCARD** - Metrics substantially worse than best
+
+---
+
+### Experiment 24: FastICA(250) logcosh alpha=1.5
+**Change:** Set FastICA `fun_args={'alpha': 1.5}`.
+
+**Rationale:** Tune ICA nonlinearity strength within valid range.
+
+**Results:**
+- Silhouette Score: -0.008012 (no change vs baseline)
+- Precision@10: 0.241386 (no change vs baseline)
+- Balanced Accuracy: 0.279145 (no change vs exp14)
+- Runtime: 207.46s
+- **Status: DISCARD** - No improvement vs best
+
+---
+
+### Experiment 25: FastICA(250) whiten=arbitrary-variance
+**Change:** Set FastICA `whiten='arbitrary-variance'`.
+
+**Rationale:** Test alternative whitening mode that may better preserve structure.
+
+**Results:**
+- Silhouette Score: -0.008012 (no change vs baseline)
+- Precision@10: 0.241386 (no change vs baseline)
+- Balanced Accuracy: 0.278277 (decreased by 0.000868 vs exp14)
+- Runtime: 198.18s
+- **Status: DISCARD** - No improvement vs best
+
+---
+
+### Experiment 26: FastICA(250) + LR(balanced) with classifier StandardScaler
+**Change:** Added StandardScaler to the classifier pipeline.
+
+**Rationale:** Normalize ICA features before classification.
+
+**Results:**
+- Silhouette Score: -0.008012 (no change vs baseline)
+- Precision@10: 0.241386 (no change vs baseline)
+- Balanced Accuracy: 0.279145 (no change vs exp14)
+- Runtime: 114.94s
+- **Status: DISCARD** - No improvement vs best
+
+---
+
+### Experiment 27: FastICA(250) whiten_solver=eigh
+**Change:** Set FastICA `whiten_solver='eigh'`.
+
+**Rationale:** Test alternative whitening solver for stability.
+
+**Results:**
+- Silhouette Score: -0.008012 (no change vs baseline)
+- Precision@10: 0.241386 (no change vs baseline)
+- Balanced Accuracy: 0.279145 (no change vs exp14)
+- Runtime: 198.26s
+- **Status: DISCARD** - No improvement vs best
+
+---
+
+### Summary Table
+
+| Exp # | Description | Sil Score | Prec@10 | Acc | Runtime | Status |
+|-------|-------------|-----------|---------|-----|---------|--------|
+| 0 | Baseline: FastICA(250) + LR | -0.008012 | 0.241386 | 0.264652 | 87.90s | baseline |
+| 1 | PowerTransformer + FastICA | -0.008832 | 0.240008 | 0.260604 | 97.63s | discard |
+| 2 | PCA(250, whiten) | -0.008436 | 0.239540 | 0.264291 | 9.23s | discard |
+| 3 | FactorAnalysis(250) | -0.009333 | 0.243856 | 0.260639 | 42.06s | discard |
+| 4 | MinMaxScaler + NMF(250) | --- | --- | --- | 600.00+s | **fail** |
+| 5 | SparseRandomProjection(250) | -0.028808 | 0.235964 | 0.260270 | 72.52s | discard |
+| 6 | MiniBatchSparsePCA(250) | --- | --- | --- | 600.00+s | **fail** |
+| 7 | StandardScaler + MiniBatchDictionaryLearning(100) | -0.007961 | 0.225536 | 0.264395 | 130.27s | discard |
+| 8 | StandardScaler + IncrementalPCA(250) | -0.030476 | 0.234898 | 0.263617 | 71.38s | discard |
+| 9 | FastICA(150) | -0.011678 | 0.238864 | 0.263323 | 40.31s | discard |
+| 10 | StandardScaler + GaussianRandomProjection(250) | -0.028635 | 0.232740 | 0.258667 | 54.34s | discard |
+| 11 | MinMaxScaler + NMF(50) | --- | --- | --- | 0.00s | **fail** |
+| 12 | StandardScaler + PCA(300) -> FastICA(200) | -0.008837 | 0.240255 | 0.265729 | 54.43s | discard |
+| 13 | FastICA(350) | -0.007750 | 0.239436 | 0.265102 | 118.60s | discard |
+| 14 | LR(class_weight=balanced) | -0.008012 | 0.241386 | 0.279145 | 73.94s | **keep** |
+| 15 | LR(balanced, C=1.0) | -0.008012 | 0.241386 | 0.279039 | 78.82s | discard |
+| 16 | LR(balanced, l1, C=0.1) | -0.008012 | 0.241386 | 0.279875 | 106.63s | discard |
+| 17 | LR(balanced, elasticnet 0.5) | -0.008012 | 0.241386 | 0.280108 | 157.98s | discard |
+| 18 | LR(balanced, liblinear) | --- | --- | --- | 0.00s | **fail** |
+| 19 | LR(balanced, lbfgs) | -0.008012 | 0.241386 | 0.279006 | 74.36s | discard |
+| 20 | LR(balanced, C=0.05) | -0.008012 | 0.241386 | 0.279252 | 72.64s | discard |
+| 21 | LR(balanced, ovr) | --- | --- | --- | 0.00s | **fail** |
+| 22 | FastICA alpha=0.5 | --- | --- | --- | 0.00s | **fail** |
+| 23 | Autoencoder(128, hidden=256, depth=1) | -0.025106 | 0.235470 | 0.276611 | 119.07s | discard |
+| 24 | FastICA logcosh alpha=1.5 | -0.008012 | 0.241386 | 0.279145 | 207.46s | discard |
+| 25 | FastICA whiten=arbitrary-variance | -0.008012 | 0.241386 | 0.278277 | 198.18s | discard |
+| 26 | Classifier StandardScaler | -0.008012 | 0.241386 | 0.279145 | 114.94s | discard |
+| 27 | FastICA whiten_solver=eigh | -0.008012 | 0.241386 | 0.279145 | 198.26s | discard |
